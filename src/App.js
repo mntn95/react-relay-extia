@@ -1,50 +1,51 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
+import { graphql } from 'react-relay'
 import './App.css';
-import fetchGraphQL from './fetchGraphQL';
+import CountriesComponent from './CountriesComponent';
+import {
+  RelayEnvironmentProvider,
+  loadQuery,
+  usePreloadedQuery,
+} from 'react-relay/hooks';
+import RelayEnvironment from './RelayEnvironment';
 
-const App = () => {
-  const [countryList, setCountryList] = useState(null);
+const { Suspense } = React;
 
-  // component did mount equivalent
-  useEffect(() => {
-    let isMounted = true;
-    fetchGraphQL(`
-    query AllCountriesWithCitiesQuery{
-      countries {
-        name
-        cities {
-          name
-        }
-      }
+// Define a query
+const PreLoadedQuery = graphql`
+  query AppPreLoadedQuery {
+    countries {
+      ...CountriesComponent_name
     }
-    `).then(response => {
-      if (!isMounted) {
-        return;
-      }
-      const {countries} = response.data;
-      console.log(countries);
-      setCountryList(countries);
-    }).catch(error => {
-      console.error(error);
-    });
+  }
+`;
 
-    return () => {
-      isMounted = false;
-    }
-  }, [fetchGraphQL]);
+const preloadedQuery = loadQuery(RelayEnvironment, PreLoadedQuery, {});
+
+const App = (props) => {
+  const data = usePreloadedQuery(PreLoadedQuery, props.preloadedQuery);
 
   return (
     <div className="App">
       <header className="App-header">
-          {countryList != null ?
-          <ul>
-            {countryList.forEach(country => {
-              console.log(country);
-            })}
-          </ul> : "Awaiting response..."}
+        <ul>
+          {data.countries.map((country) => (
+            <CountriesComponent country={country} />
+          ))}
+        </ul>
       </header>
     </div>
   );
 }
 
-export default App;
+const AppRoot = (props) => {
+  return (
+    <RelayEnvironmentProvider environment={RelayEnvironment}>
+      <Suspense fallback={'Loading...'}>
+        <App preloadedQuery={preloadedQuery} />
+      </Suspense>
+    </RelayEnvironmentProvider>
+  );
+}
+
+export default AppRoot;
