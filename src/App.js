@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { graphql } from 'react-relay'
 import './App.css';
-import CountriesComponent from './CountriesComponent';
+import CountryComponent from './CountryComponent';
 import {
   RelayEnvironmentProvider,
   loadQuery,
@@ -9,13 +9,12 @@ import {
 } from 'react-relay/hooks';
 import RelayEnvironment from './RelayEnvironment';
 
-const { Suspense } = React;
-
 // Define a query
 const PreLoadedQuery = graphql`
   query AppPreLoadedQuery {
     countries {
-      ...CountriesComponent_name
+      id
+      ...CountryComponent_name
     }
   }
 `;
@@ -30,7 +29,7 @@ const App = (props) => {
       <header className="App-header">
         <ul>
           {data.countries.map((country) => (
-            <CountriesComponent country={country} />
+            <CountryComponent key={country.id} country={country} />
           ))}
         </ul>
       </header>

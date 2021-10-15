@@ -8,11 +8,12 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
-type CountriesComponent_name$ref = any;
+type CountryComponent_name$ref = any;
 export type AppPreLoadedQueryVariables = {||};
 export type AppPreLoadedQueryResponse = {|
   +countries: $ReadOnlyArray<{|
-    +$fragmentRefs: CountriesComponent_name$ref
+    +id: string,
+    +$fragmentRefs: CountryComponent_name$ref,
   |}>
 |};
 export type AppPreLoadedQuery = {|
@@ -25,18 +26,41 @@ export type AppPreLoadedQuery = {|
 /*
 query AppPreLoadedQuery {
   countries {
-    ...CountriesComponent_name
     id
+    ...CountryComponent_name
   }
 }
 
-fragment CountriesComponent_name on Country {
+fragment CityComponent_name on City {
   name
   id
 }
+
+fragment CountryComponent_name on Country {
+  name
+  cities {
+    ...CityComponent_name
+    id
+  }
+}
 */
 
-const node/*: ConcreteRequest*/ = {
+const node/*: ConcreteRequest*/ = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "name",
+  "storageKey": null
+};
+return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
@@ -51,10 +75,11 @@ const node/*: ConcreteRequest*/ = {
         "name": "countries",
         "plural": true,
         "selections": [
+          (v0/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
-            "name": "CountriesComponent_name"
+            "name": "CountryComponent_name"
           }
         ],
         "storageKey": null
@@ -77,18 +102,19 @@ const node/*: ConcreteRequest*/ = {
         "name": "countries",
         "plural": true,
         "selections": [
+          (v0/*: any*/),
+          (v1/*: any*/),
           {
             "alias": null,
             "args": null,
-            "kind": "ScalarField",
-            "name": "name",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
+            "concreteType": "City",
+            "kind": "LinkedField",
+            "name": "cities",
+            "plural": true,
+            "selections": [
+              (v1/*: any*/),
+              (v0/*: any*/)
+            ],
             "storageKey": null
           }
         ],
@@ -97,15 +123,16 @@ const node/*: ConcreteRequest*/ = {
     ]
   },
   "params": {
-    "cacheID": "63e28084811a6899ed72ec8d7c041149",
+    "cacheID": "7417736a2081e384ac48df05fd397d2e",
     "id": null,
     "metadata": {},
     "name": "AppPreLoadedQuery",
     "operationKind": "query",
-    "text": "query AppPreLoadedQuery {\n  countries {\n    ...CountriesComponent_name\n    id\n  }\n}\n\nfragment CountriesComponent_name on Country {\n  name\n  id\n}\n"
+    "text": "query AppPreLoadedQuery {\n  countries {\n    id\n    ...CountryComponent_name\n  }\n}\n\nfragment CityComponent_name on City {\n  name\n  id\n}\n\nfragment CountryComponent_name on Country {\n  name\n  cities {\n    ...CityComponent_name\n    id\n  }\n}\n"
   }
 };
+})();
 // prettier-ignore
-(node/*: any*/).hash = '6118d1d3c5cee3a72b1ac6ffce1d0c29';
+(node/*: any*/).hash = '362bee843c8424d7e5106608870e6a14';
 
 module.exports = node;

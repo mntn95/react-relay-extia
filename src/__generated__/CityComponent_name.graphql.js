@@ -9,17 +9,17 @@
 /*::
 import type { ReaderFragment } from 'relay-runtime';
 import type { FragmentReference } from "relay-runtime";
-declare export opaque type CountriesComponent_name$ref: FragmentReference;
-declare export opaque type CountriesComponent_name$fragmentType: CountriesComponent_name$ref;
-export type CountriesComponent_name = {|
+declare export opaque type CityComponent_name$ref: FragmentReference;
+declare export opaque type CityComponent_name$fragmentType: CityComponent_name$ref;
+export type CityComponent_name = {|
   +name: string,
   +id: string,
-  +$refType: CountriesComponent_name$ref,
+  +$refType: CityComponent_name$ref,
 |};
-export type CountriesComponent_name$data = CountriesComponent_name;
-export type CountriesComponent_name$key = {
-  +$data?: CountriesComponent_name$data,
-  +$fragmentRefs: CountriesComponent_name$ref,
+export type CityComponent_name$data = CityComponent_name;
+export type CityComponent_name$key = {
+  +$data?: CityComponent_name$data,
+  +$fragmentRefs: CityComponent_name$ref,
   ...
 };
 */
@@ -29,7 +29,7 @@ const node/*: ReaderFragment*/ = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "CountriesComponent_name",
+  "name": "CityComponent_name",
   "selections": [
     {
       "alias": null,
@@ -46,10 +46,10 @@ const node/*: ReaderFragment*/ = {
       "storageKey": null
     }
   ],
-  "type": "Country",
+  "type": "City",
   "abstractKey": null
 };
 // prettier-ignore
-(node/*: any*/).hash = '8105878ddaee8c91df3d6529e9bad43d';
+(node/*: any*/).hash = 'd9ea9da79fc0db38bcbcb56f589fb18d';
 
 module.exports = node;
