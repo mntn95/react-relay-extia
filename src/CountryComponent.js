@@ -4,6 +4,7 @@ import CityComponent from './CityComponent';
 
 const CountryComponent = (props) => {
   const [citiesList, showCitiesList] = useState(false);
+  // Using fragment to get data in current component only
   const countriesAndCitiesFragment = graphql`
     fragment CountryComponent_name on Country {
       name
@@ -12,6 +13,7 @@ const CountryComponent = (props) => {
       }
     }
   `;
+  // Toggling cities list on click
   const handleClick = () => {
     showCitiesList(!citiesList);
   }

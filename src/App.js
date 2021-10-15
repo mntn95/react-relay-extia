@@ -9,7 +9,7 @@ import {
 } from 'react-relay/hooks';
 import RelayEnvironment from './RelayEnvironment';
 
-// Define a query
+// Defining Pre-loaded query
 const PreLoadedQuery = graphql`
   query AppPreLoadedQuery {
     countries {
@@ -22,6 +22,7 @@ const PreLoadedQuery = graphql`
 const preloadedQuery = loadQuery(RelayEnvironment, PreLoadedQuery, {});
 
 const App = (props) => {
+  // Calling query on load
   const data = usePreloadedQuery(PreLoadedQuery, props.preloadedQuery);
 
   return (
